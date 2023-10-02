@@ -1,0 +1,314 @@
+Restaurant name
+[ ]
+# check unique Restaurant Name
+df['restaurant_name'].nunique  ## Complete the code to find out number of unique Restaurant Name
+output
+<bound method IndexOpsMixin.nunique of 0                                     Hangawi
+1                   Blue Ribbon Sushi Izakaya
+2                                 Cafe Habana
+3                   Blue Ribbon Fried Chicken
+4                            Dirty Bird to Go
+                        ...                  
+1893    Chipotle Mexican Grill $1.99 Delivery
+1894                                The Smile
+1895                        Blue Ribbon Sushi
+1896                        Jack's Wife Freda
+1897                        Blue Ribbon Sushi
+Name: restaurant_name, Length: 1898, dtype: object>
+Cuisine type
+[ ]
+# Check unique cuisine type
+df['cuisine_type'].nunique ## Complete the code to find out  number of  unique cuisine type
+output
+<bound method IndexOpsMixin.nunique of 0              Korean
+1            Japanese
+2             Mexican
+3            American
+4            American
+            ...      
+1893          Mexican
+1894         American
+1895         Japanese
+1896    Mediterranean
+1897         Japanese
+Name: cuisine_type, Length: 1898, dtype: object>
+[ ]
+plt.figure(figsize = (15,5))
+sns.countplot(data = df, x = 'cuisine_type') ## Create a countplot for cuisine type.
+output
+
+Cost of the order
+[ ]
+sns.histplot(data=df,x='cost_of_the_order') ## Histogram for the cost of order
+plt.show()
+sns.boxplot(data=df,x='cost_of_the_order') ## Boxplot for the cost of order
+plt.show()
+output
+
+Day of the week
+[ ]
+# # Check the unique values
+df['day_of_the_week'].unique ## Complete the code to check unique values for the 'day_of_the_week' column
+output
+<bound method Series.unique of 0       Weekend
+1       Weekend
+2       Weekday
+3       Weekend
+4       Weekday
+         ...   
+1893    Weekend
+1894    Weekend
+1895    Weekday
+1896    Weekday
+1897    Weekend
+Name: day_of_the_week, Length: 1898, dtype: object>
+[ ]
+sns.countplot(data = df, x = 'day_of_the_week') ## Complete the code to plot a bar graph for 'day_of_the_week' column
+output
+
+Rating
+[ ]
+# Check the unique values
+df['rating'].unique() ## Complete the code to check unique values for the 'rating' column
+output
+array(['Not given', '5', '3', '4'], dtype=object)
+[ ]
+sns.countplot(data = df, x = 'rating') ## Complete the code to plot bar graph for 'rating' column
+output
+
+Food Preparation time
+[ ]
+sns.histplot(data=df,x='food_preparation_time') ## Complete the code to plot the histogram for the cost of order
+plt.show()
+sns.boxplot(data=df,x='food_preparation_time') ## Complete the code to plot the boxplot for the cost of order
+plt.show()
+output
+
+Delivery time
+[ ]
+sns.histplot(data=df,x= 'delivery_time') ## Complete the code to plot the histogram for the delivery time
+plt.show()
+sns.boxplot(data=df,x='delivery_time') ## Complete the code to plot the boxplot for the delivery time
+plt.show()
+output
+
+Question 7: Which are the top 5 restaurants in terms of the number of orders received?
+[ ]
+# Get top 5 restaurants with highest number of orders
+df['restaurant_name'].value_counts().head(5) ## Complete the code
+output
+Shake Shack                  219
+The Meatball Shop            132
+Blue Ribbon Sushi            119
+Blue Ribbon Fried Chicken     96
+Parm                          68
+Name: restaurant_name, dtype: int64
+Question 8: Which is the most popular cuisine on weekends?
+[ ]
+# Get most popular cuisine on weekends
+df_weekend = df[df['day_of_the_week'] == 'Weekend']
+df_weekend['cuisine_type'].value_counts().head(1) ## Complete the code to check unique values for the cuisine type on weekend
+output
+American    415
+Name: cuisine_type, dtype: int64
+Question 9: What percentage of the orders cost more than 20 dollars?
+[ ]
+# Get orders that cost above 20 dollars
+df_greater_than_20 = df[df['cost_of_the_order']>20] ## Write the appropriate column name to get the orders having cost above $20
+
+# Calculate the number of total orders where the cost is above 20 dollars
+print('The number of total orders that cost above 20 dollars is:', df_greater_than_20.shape[0])
+
+# Calculate percentage of such orders in the dataset
+percentage = (df_greater_than_20.shape[0] / df.shape[0]) * 100
+
+print("Percentage of orders above 20 dollars:", round(percentage, 2), '%')
+output
+The number of total orders that cost above 20 dollars is: 555
+Percentage of orders above 20 dollars: 29.24 %
+Question 10: What is the mean order delivery time?
+[ ]
+# Get the mean delivery time
+mean_del_time = df['delivery_time'].mean()  ## Write the appropriate function to obtain the mean delivery time
+
+print('The mean delivery time for this dataset is', round(mean_del_time, 2), 'minutes')
+output
+The mean delivery time for this dataset is 24.16 minutes
+Question 11: The company has decided to give 20% discount vouchers to the top 3 most frequent customers. Find the IDs of these customers and the number of orders they placed
+[ ]
+# Get the counts of  each customer_id
+df['_______'].value_counts().head(3)  ## Write the appropriate column name to get the top 5 cmost frequent customers
+Multivariate Analysis
+Question 12: Perform a multivariate analysis to explore relationships between the important variables in the dataset. (It is a good idea to explore relations between numerical variables as well as relations between numerical and categorical variables)
+Cuisine vs Cost of the order
+[ ]
+# Relationship between cost of the order and cuisine type
+plt.figure(figsize=(15,7))
+sns.boxplot(x = "cuisine_type", y = "cost_of_the_order", data = df, palette = 'PuBu')
+plt.xticks(rotation = 60)
+plt.show()
+output
+
+Cuisine vs Food Preparation time
+[ ]
+# Relationship between food preparation time and cuisine type
+plt.figure(figsize=(15,7))
+sns.boxplot(data=df, x='cuisine_type', y='food_preparation_time')  ## Complete the code to visualize the relationship between food preparation time and cuisine type using boxplot
+plt.xticks(rotation = 60)
+plt.show()
+output
+
+Day of the Week vs Delivery time
+[ ]
+# Relationship between day of the week and delivery time
+plt.figure(figsize=(15,7))
+sns.boxplot(data=df, x='rating', y='food_preparation_time')  ## Complete the code to visualize the relationship between day of the week and delivery time using boxplot
+plt.show()
+output
+
+Run the below code and write your observations on the revenue generated by the restaurants
+[ ]
+df.groupby(['restaurant_name'])['cost_of_the_order'].sum().sort_values(ascending = False).head(14)
+output
+restaurant_name
+Shake Shack                      3579.53
+The Meatball Shop                2145.21
+Blue Ribbon Sushi                1903.95
+Blue Ribbon Fried Chicken        1662.29
+Parm                             1112.76
+RedFarm Broadway                  965.13
+RedFarm Hudson                    921.21
+TAO                               834.50
+Han Dynasty                       755.29
+Blue Ribbon Sushi Bar & Grill     666.62
+Rubirosa                          660.45
+Sushi of Gari 46                  640.87
+Nobu Next Door                    623.67
+Five Guys Burgers and Fries       506.47
+Name: cost_of_the_order, dtype: float64
+Rating vs Delivery time
+[ ]
+↳ 1 cell hidden
+Rating vs Food preparation time
+[ ]
+# Relationship between rating and food preparation time
+plt.figure(figsize=(15, 7))
+sns.pointplot(data=df, x='rating', y='food_preparation_time')  ## Complete the code to visualize the relationship between rating and food preparation time using pointplot
+plt.show()
+output
+
+Rating vs Cost of the order
+[ ]
+# Relationship between rating and cost of the order
+plt.figure(figsize=(15, 7))
+sns.pointplot(data=df, x='rating', y='cost_of_the_order')   ## Complete the code to visualize the relationship between rating and cost of the order using pointplot
+plt.show()
+output
+
+Correlation among variables
+[ ]
+# Plot the heatmap
+col_list = ['cost_of_the_order', 'food_preparation_time', 'delivery_time']
+plt.figure(figsize=(15, 7))
+sns.heatmap(df[col_list].corr(), annot=True, vmin=-1, vmax=1, fmt=".2f", cmap="Spectral")
+plt.show()
+output
+
+Question 13: The company wants to provide a promotional offer in the advertisement of the restaurants. The condition to get the offer is that the restaurants must have a rating count of more than 50 and the average rating should be greater than 4. Find the restaurants fulfilling the criteria to get the promotional offer
+[ ]
+# Filter the rated restaurants
+df_rated = df[df['rating'] != 'Not given'].copy()
+
+# Convert rating column from object to integer
+df_rated['rating'] = df_rated['rating'].astype('int')
+
+# Create a dataframe that contains the restaurant names with their rating counts
+df_rating_count = df_rated.groupby(['restaurant_name'])['rating'].count().sort_values(ascending = False).reset_index()
+df_rating_count.head()
+output
+
+[ ]
+# Get the restaurant names that have rating count more than 50
+rest_names = df_rating_count[df_rating_count['rating'] > 50]['restaurant_name'] ## Complete the code to get the restaurant names having rating count more than 50
+
+# Filter to get the data of restaurants that have rating count more than 50
+df_mean_4 = df_rated[df_rated['restaurant_name'].isin(rest_names)].copy()
+
+# Group the restaurant names with their ratings and find the mean rating of each restaurant
+df_mean_4.groupby(['restaurant_name'])['rating'].mean().sort_values(ascending = False).reset_index().dropna() ## Complete the code to find the mean rating
+
+output
+
+Question 14: The company charges the restaurant 25% on the orders having cost greater than 20 dollars and 15% on the orders having cost greater than 5 dollars. Find the net revenue generated by the company across all orders
+[ ]
+#function to determine the revenue
+def compute_rev(x):
+    if x > 20:
+        return x*0.25
+    elif x > 5:
+        return x*0.15
+    else:
+        return x*0
+
+df['Revenue'] = df['cost_of_the_order'].apply(compute_rev) ## Write the apprpriate column name to compute the revenue
+df.head()
+output
+
+[ ]
+# get the total revenue and print it
+total_rev = df['Revenue'].sum() ## Write the appropriate function to get the total revenue
+print('The net revenue is around', round(total_rev, 2), 'dollars')
+output
+The net revenue is around 6166.3 dollars
+Question 15: The company wants to analyze the total time required to deliver the food. What percentage of orders take more than 60 minutes to get delivered from the time the order is placed? (The food has to be prepared and then delivered)
+[ ]
+
+# Calculate the total delivery time
+df['total_time'] = df['food_preparation_time'] + df['delivery_time']
+
+# Calculate the percentage of orders with more than 60 minutes of total delivery time
+percentage = (df[df['total_time'] > 60].shape[0] / df.shape[0]) * 100
+
+# Print the percentage
+print("Percentage of orders with more than 60 minutes of total delivery time:", round(percentage, 2), "%")
+
+output
+Percentage of orders with more than 60 minutes of total delivery time: 10.54 %
+Question 16: The company wants to analyze the delivery time of the orders on weekdays and weekends. How does the mean delivery time vary during weekdays and weekends?
+[ ]
+# Get the mean delivery time on weekdays and print it
+print('The mean delivery time on weekdays is around',
+      round(df[df['day_of_the_week'] == 'Weekday']['delivery_time'].mean()),
+     'minutes')
+
+## Write the code below to get the mean delivery time on weekends and print it
+print('The mean delivery time on weekends is around',
+      round(df[df['day_of_the_week'] == 'Weekend']['delivery_time'].mean()),
+     'minutes')
+output
+The mean delivery time on weekdays is around 28 minutes
+The mean delivery time on weekends is around 22 minutes
+Conclusion and Recommendations
+Question 17: What are your conclusions from the analysis? What recommendations would you like to share to help improve the business? (You can use cuisine type and feedback ratings to drive your business recommendations)
+
+Conclusions:
+The dataset consists of 1898 orders placed by customers.
+The dataset contains information about the order ID, customer ID, restaurant name, cuisine type, cost of the order, day of the week, rating, food preparation time, and delivery time.
+There are no missing values in the dataset.
+The statistical summary reveals the minimum, average, and maximum time it takes for food to be prepared once an order is placed.
+There are orders that have not been rated by customers.
+The dataset includes a variety of cuisine types, with American and Japanese cuisines being the most popular.
+The cost of the orders ranges from a few dollars to around 70 dollars.
+The orders are placed on both weekdays and weekends, with a higher frequency on weekdays.
+The majority of the orders have received ratings of 4 or 5.
+The food preparation time and delivery time vary, with some orders taking longer than others.
+
+Recommendations:
+Identify the top 5 restaurants in terms of the number of orders received and collaborate with them to enhance customer experience and loyalty.
+Focus on popular cuisines like American and Japanese to attract more customers and expand the range of offerings in these cuisines. Encourage customers to provide ratings for their orders by offering incentives or rewards. This will help gather more feedback and improve the overall quality of service.
+Analyze the relationship between food preparation time and cuisine type. * Identify any cuisines that consistently have longer preparation times and work with the respective restaurants to optimize their operations and reduce wait times.
+Monitor the delivery time on weekdays and weekends separately. If there are significant differences, consider allocating more resources or optimizing delivery routes to ensure timely deliveries, especially on busier days.
+Analyze the relationship between ratings and food preparation time, as well as ratings and the cost of the order. Identify any patterns or trends to understand how these factors impact customer satisfaction and make necessary adjustments if required.
+Regularly review the revenue generated by each restaurant and prioritize collaboration efforts with high-revenue restaurants to maximize profits.
+Keep track of the total delivery time and monitor the percentage of orders that take more than 60 minutes for delivery. Implement measures to reduce delivery time and improve customer satisfaction.
+Continuously collect feedback from customers to identify areas of improvement and enhance the overall customer experience.
